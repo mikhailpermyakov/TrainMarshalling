@@ -1,5 +1,5 @@
 public class ValidationResult {
-  private boolean isValid = false;
+  private boolean isValid = true;
   private String errorMessage;
 
   public String getErrorMessage() {
@@ -12,5 +12,9 @@ public class ValidationResult {
 
   public boolean isValid() {
     return isValid;
+  }
+
+  public void setValid(boolean valid) {
+    isValid = valid;
   }
 }

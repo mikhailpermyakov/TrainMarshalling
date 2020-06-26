@@ -23,32 +23,34 @@ public class DataProcessor {
       previousLine = currentLine;
       isTrainLength = false;
     }
-
-    while (System.lineSeparator().equals(result.get(result.size() - 1)))
-      result.remove(result.size() - 1);
-    result.add(result.remove(result.size() - 1).trim());
     return result;
   }
 
+  //train marshalling algorithm implementation
   private static String estimate(int[] expectedOrder) {
     int totalAmount = expectedOrder.length;
     String result;
     IStack stack = new Stack(totalAmount);
+    //all the counters start with '0' so subtraction is used below to keep consistency when comparing
     int inboundCounter = 0;
     int outboundCounter = 0;
     int nextExpected = expectedOrder[0];
 
+    //check if it is possible to make a move
     while (inboundCounter < totalAmount || (!stack.isEmpty() && stack.peek() == nextExpected)) {
+      //sorting yard is not empty and the next expected coach is on the top
       if (((!stack.isEmpty()) && stack.peek() == nextExpected)) {
         stack.delete();
+        //get the next expected number if the expected sequence formation is not yet complete
         if (outboundCounter < expectedOrder.length - 1)
           nextExpected = expectedOrder[++outboundCounter];
       } else {
-        stack.add(inboundCounter++ + 1);
+        stack.add(++inboundCounter);
       }
     }
 
     if (outboundCounter == totalAmount - 1)
+      //all the coaches from the inbound train have been successfully rearranged
       result = "Yes";
     else
       result = "No";
