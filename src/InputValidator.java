@@ -105,8 +105,8 @@ public class InputValidator {
       }
 
       String[] numbersStr = currentLine.split(" ");
-      for (String numberStr : numbersStr){
-        if (Integer.parseInt(numberStr) > numbersStr.length){
+      for (String numberStr : numbersStr) {
+        if (Integer.parseInt(numberStr) > numbersStr.length) {
           result.setValid(false);
           result.setErrorMessage("Error: a coach number occurred that exceeds its maximum possible number");
           return result;
@@ -127,18 +127,16 @@ public class InputValidator {
         continue;
       }
 
+      //brute-force search
       String[] numbersStr = currentLine.split(" ");
-      int sum = 0;
-      for (String numberStr : numbersStr){
-        sum += Integer.parseInt(numberStr);
-      }
-
-      //arithmetical progression sum
-      if (sum != numbersStr.length / 2.0 * (numbersStr.length + 1)){
-        result.setValid(false);
-        result.setErrorMessage("Error: duplicate value occurred");
-        return result;
-      }
+      for (int i = 0; i < numbersStr.length; i++)
+        for (int j = i + 1; j < numbersStr.length; j++) {
+          if (numbersStr[i].equals(numbersStr[j])) {
+            result.setValid(false);
+            result.setErrorMessage("Error: duplicate value occurred");
+            return result;
+          }
+        }
     }
 
 
