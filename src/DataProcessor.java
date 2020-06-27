@@ -31,7 +31,7 @@ public class DataProcessor {
     int totalAmount = expectedOrder.length;
     String result;
     IStack stack = new Stack(totalAmount);
-    //all the counters start with '0' so subtraction is used below to keep consistency when comparing
+    //all counters start with '0' so either subtraction or increment is used below to keep consistency when comparing
     int inboundCounter = 0;
     int outboundCounter = 0;
     int nextExpected = expectedOrder[0];
