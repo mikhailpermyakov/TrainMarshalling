@@ -6,10 +6,11 @@ public class InputValidator {
     int size = inputData.size();
     String previousLine = "";
     boolean isTrainLength;
+    int currentLength;
 
     //first check. all values are non-negative integers, no empty strings
     for (String string : inputData) {
-      for (String stringNum : string.split(" ")) {
+      for (String stringNum : string.split("\\s+")) {
         try {
           int number = Integer.parseInt(stringNum.trim());
           if (number < 0) {
@@ -49,13 +50,40 @@ public class InputValidator {
       previousLine = currentLine;
     }
 
-    //fourth check. the length of the expected sequence equals to the number in the block header
+    //fourth check. degenerate case of 1
     isTrainLength = true;
-    int currentLength = 0;
+    for (int i = 0; i < inputData.size() - 1; i++) {
+      String currentLine = inputData.get(i);
+      if (isTrainLength && "1".equals(currentLine)) {
+        String nextLine = inputData.get(i + 1);
+        if (!"1".equals(nextLine)){
+          result.setValid(false);
+          result.setErrorMessage("Invalid train length: 1 expected but found " + nextLine);
+          return result;
+        }
+      }
+
+      if ("0".equals(currentLine.trim())) {
+        isTrainLength = true;
+        continue;
+      }
+
+      isTrainLength = false;
+    }
+
+    //fifth check. the length of the expected sequence equals to the number in the block header
+    isTrainLength = true;
+    currentLength = 0;
     previousLine = "";
     for (String currentLine : inputData) {
       if (isTrainLength) {
-        currentLength = Integer.parseInt(currentLine.trim());
+        try {
+          currentLength = Integer.parseInt(currentLine.trim());
+        } catch (NumberFormatException e) {
+          result.setValid(false);
+          result.setErrorMessage("Error: a train length doesn't look like a valid integer number");
+          return result;
+        }
       }
 
       //"0" indicates the end of the block
@@ -66,8 +94,8 @@ public class InputValidator {
           break;
         }
 
-        //the train length has been determined on the previous line, meaning "0" is not expected on the current one
-        if (previousLine.equals(String.valueOf(currentLength))) {
+        //the train length has been determined on the previous line, so a meaningful string is now expected, not a "0"
+        if (!(currentLength == 1) && previousLine.equals(String.valueOf(currentLength))) {
           result.setValid(false);
           result.setErrorMessage("Invalid train length: the train is supposed to have at least one coach");
           return result;
@@ -80,7 +108,7 @@ public class InputValidator {
       }
 
       if (!isTrainLength) {
-        if (currentLine.split(" ").length != currentLength) {
+        if (currentLine.split("\\s+").length != currentLength) {
           result.setValid(false);
           result.setErrorMessage("The length of the expected sequence is inconsistent with the passed amount");
           return result;
@@ -91,7 +119,7 @@ public class InputValidator {
       isTrainLength = false;
     }
 
-    //fifth check. every number in the sequence does not exceed its length
+    //sixth check. every number in the sequence does not exceed its length
     isTrainLength = true;
     for (String currentLine : inputData) {
       if (isTrainLength) {
@@ -104,7 +132,7 @@ public class InputValidator {
         continue;
       }
 
-      String[] numbersStr = currentLine.split(" ");
+      String[] numbersStr = currentLine.split("\\s+");
       for (String numberStr : numbersStr) {
         if (Integer.parseInt(numberStr) > numbersStr.length) {
           result.setValid(false);
@@ -114,7 +142,7 @@ public class InputValidator {
       }
     }
 
-    //sixth check. a sequence does not contain repeated values
+    //seventh check. a sequence does not contain repeated values
     isTrainLength = true;
     for (String currentLine : inputData) {
       if (isTrainLength) {
@@ -128,7 +156,7 @@ public class InputValidator {
       }
 
       //brute-force search
-      String[] numbersStr = currentLine.split(" ");
+      String[] numbersStr = currentLine.split("\\s+");
       for (int i = 0; i < numbersStr.length; i++)
         for (int j = i + 1; j < numbersStr.length; j++) {
           if (numbersStr[i].equals(numbersStr[j])) {
@@ -138,7 +166,6 @@ public class InputValidator {
           }
         }
     }
-
 
     return result;
   }

@@ -3,7 +3,7 @@ public class DataParser {
    * Parses a single line to return an array of integers
    * */
   public static int[] parse(String inputLIne) {
-    String[] numbers = inputLIne.split(" ");
+    String[] numbers = inputLIne.split("\\s+");
     int[] result = new int[numbers.length];
     if ("0".equals(inputLIne.trim())){
       return new int[]{-1};
