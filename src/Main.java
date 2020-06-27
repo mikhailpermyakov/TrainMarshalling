@@ -3,7 +3,7 @@ import java.util.List;
 public class Main {
   public static void main(String[] args) throws Exception {
     String inputPath = args[0];
-    String outputPath = args[1];
+    String outputPath = inputPath + "_result";
 
     List<String> inputData = InputReader.read(inputPath);
     ValidationResult validationResult = InputValidator.validate(inputData);

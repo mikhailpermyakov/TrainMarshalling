@@ -5,12 +5,12 @@ public class DataParser {
   public static int[] parse(String inputLIne) {
     String[] numbers = inputLIne.split("\\s+");
     int[] result = new int[numbers.length];
-    if ("0".equals(inputLIne.trim())){
+    if ("0".equals(inputLIne)){
       return new int[]{-1};
     }
 
     for (int i = 0; i < numbers.length; i++) {
-      result[i] = Integer.parseInt(numbers[i].trim());
+      result[i] = Integer.parseInt(numbers[i]);
     }
 
     return result;

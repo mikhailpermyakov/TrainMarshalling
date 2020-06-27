@@ -9,12 +9,13 @@ public class DataProcessor {
     boolean isTrainLength = true;
 
     for (String currentLine : inputData) {
-      if ("0".equals(currentLine.trim())) {
+      if ("0".equals(currentLine)) {
         if (previousLine.equals(currentLine)) {
           break;
         }
         result.add(System.lineSeparator());
         isTrainLength = true;
+        previousLine = currentLine;
         continue;
       }
 
@@ -30,7 +31,7 @@ public class DataProcessor {
   private static String estimate(int[] expectedOrder) {
     int totalAmount = expectedOrder.length;
     String result;
-    IStack stack = new Stack(totalAmount);
+    Stack stack = new Stack(totalAmount);
     //all counters start with '0' so either subtraction or increment is used below to keep consistency when comparing
     int inboundCounter = 0;
     int outboundCounter = 0;

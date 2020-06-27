@@ -8,11 +8,20 @@ public class InputValidator {
     boolean isTrainLength;
     int currentLength;
 
-    //first check. all values are non-negative integers, no empty strings
+    //ZERO CHECK.
+    for (String currentLine : inputData) {
+      if (currentLine.split("\\s+").length > 1000){
+        result.setValid(false);
+        result.setErrorMessage("Error: maximum train length exceeded");
+        return result;
+      }
+    }
+    
+    //FIRST CHECK. All values are non-negative integers, no empty strings
     for (String string : inputData) {
       for (String stringNum : string.split("\\s+")) {
         try {
-          int number = Integer.parseInt(stringNum.trim());
+          int number = Integer.parseInt(stringNum);
           if (number < 0) {
             result.setValid(false);
             result.setErrorMessage("Error: an unexpected negative value occurred");
@@ -31,14 +40,14 @@ public class InputValidator {
       }
     }
 
-    //second check. the input data set ends with double "0"s
+    //SECOND CHECK. The input data set ends with double "0"s
     if (!(inputData.get(size - 1).equals("0") && inputData.get(size - 2).equals("0"))) {
       result.setValid(false);
       result.setErrorMessage("Invalid input file structure: concluding '0' expected");
       return result;
     }
 
-    //third check if there are consecutive "0"s amidst the data set
+    //THIRD CHECK. No consecutive "0"s amidst the data set
     for (int i = 0; i < inputData.size(); i++) {
       String currentLine = inputData.get(i);
 
@@ -50,7 +59,7 @@ public class InputValidator {
       previousLine = currentLine;
     }
 
-    //fourth check. degenerate case of 1
+    //FOURTH CHECK. Degenerate case of 1
     isTrainLength = true;
     for (int i = 0; i < inputData.size() - 1; i++) {
       String currentLine = inputData.get(i);
@@ -63,7 +72,7 @@ public class InputValidator {
         }
       }
 
-      if ("0".equals(currentLine.trim())) {
+      if ("0".equals(currentLine)) {
         isTrainLength = true;
         continue;
       }
@@ -71,14 +80,14 @@ public class InputValidator {
       isTrainLength = false;
     }
 
-    //fifth check. the length of the expected sequence equals to the number in the block header
+    //FIFTH CHECK. The length of the expected sequence equals to the number in the block header
     isTrainLength = true;
     currentLength = 0;
     previousLine = "";
     for (String currentLine : inputData) {
       if (isTrainLength) {
         try {
-          currentLength = Integer.parseInt(currentLine.trim());
+          currentLength = Integer.parseInt(currentLine);
         } catch (NumberFormatException e) {
           result.setValid(false);
           result.setErrorMessage("Error: a train length doesn't look like a valid integer number");
@@ -87,7 +96,7 @@ public class InputValidator {
       }
 
       //"0" indicates the end of the block
-      if ("0".equals(currentLine.trim())) {
+      if ("0".equals(currentLine)) {
         //if the previous line is also "0" it means the end of the data set
         if (previousLine.equals(currentLine)) {
           result.setValid(true);
@@ -119,7 +128,7 @@ public class InputValidator {
       isTrainLength = false;
     }
 
-    //sixth check. every number in the sequence does not exceed its length
+    //SIXTH CHECK. Every number in the sequence does not exceed its length
     isTrainLength = true;
     for (String currentLine : inputData) {
       if (isTrainLength) {
@@ -127,7 +136,7 @@ public class InputValidator {
         continue;
       }
 
-      if ("0".equals(currentLine.trim())) {
+      if ("0".equals(currentLine)) {
         isTrainLength = true;
         continue;
       }
@@ -142,7 +151,7 @@ public class InputValidator {
       }
     }
 
-    //seventh check. a sequence does not contain repeated values
+    //SEVENTH CHECK. A sequence does not contain repeated values
     isTrainLength = true;
     for (String currentLine : inputData) {
       if (isTrainLength) {
@@ -150,7 +159,7 @@ public class InputValidator {
         continue;
       }
 
-      if ("0".equals(currentLine.trim())) {
+      if ("0".equals(currentLine)) {
         isTrainLength = true;
         continue;
       }
