@@ -1,0 +1,2 @@
+./compile.sh
+./runTests.sh
