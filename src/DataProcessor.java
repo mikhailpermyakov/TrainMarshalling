@@ -20,7 +20,7 @@ public class DataProcessor {
       }
 
       if (!isTrainLength)
-        result.add(estimate(DataParser.parse(currentLine)) + System.lineSeparator());
+        result.add(estimate(DataParser.parse(currentLine.trim())) + System.lineSeparator());
       previousLine = currentLine;
       isTrainLength = false;
     }
