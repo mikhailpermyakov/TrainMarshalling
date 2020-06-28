@@ -67,7 +67,7 @@ public class InputValidator {
         String nextLine = inputData.get(i + 1);
         if (!"1".equals(nextLine)) {
           result.setValid(false);
-          result.setErrorMessage("Invalid train length: 1 expected but found " + nextLine);
+          result.setErrorMessage("Invalid number: expected 1 but found " + nextLine);
           return result;
         }
       }
