@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class OutputWriter {
-  public static void write(String path, List<String> outputData) throws IOException {
-    File outputFile = new File(path);
+  public static void write(String outputFileName, List<String> outputData) throws IOException {
+    File outputFile = new File(outputFileName);
     FileWriter outputFileWriter = new FileWriter(outputFile);
 
     while (outputData.size() > 0 && System.lineSeparator().equals(outputData.get(outputData.size() - 1)))

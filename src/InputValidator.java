@@ -12,7 +12,7 @@ public class InputValidator {
     for (String currentLine : inputData) {
       if (currentLine.split("\\s+").length > 1000) {
         result.setValid(false);
-        result.setErrorMessage("Error: maximum train length exceeded");
+        result.setErrorMessage("Train Marshalling Error: maximum train length exceeded");
         return result;
       }
     }
@@ -24,16 +24,16 @@ public class InputValidator {
           int number = Integer.parseInt(stringNum.trim());
           if (number < 0) {
             result.setValid(false);
-            result.setErrorMessage("Error: an unexpected negative value occurred");
+            result.setErrorMessage("Train Marshalling Error: an unexpected negative value occurred");
             return result;
           }
         } catch (NumberFormatException e) {
           result.setValid(false);
           String errorMessage;
           if (stringNum.isEmpty())
-            errorMessage = "Error: unexpected empty string";
+            errorMessage = "Train Marshalling Error: unexpected empty string";
           else
-            errorMessage = "Error: unable to parse an integer number.\n" + e.getMessage();
+            errorMessage = "Train Marshalling Error: unable to parse an integer number.\n" + e.getMessage();
           result.setErrorMessage(errorMessage);
           return result;
         }
@@ -43,7 +43,7 @@ public class InputValidator {
     //SECOND CHECK. The input data set ends with double "0"s
     if (!(inputData.get(size - 1).equals("0") && inputData.get(size - 2).equals("0"))) {
       result.setValid(false);
-      result.setErrorMessage("Invalid input file structure: concluding '0' expected");
+      result.setErrorMessage("Train Marshalling Error: Invalid input file structure: concluding '0' expected");
       return result;
     }
     
@@ -53,7 +53,7 @@ public class InputValidator {
       
       if ("0".equals(currentLine) && currentLine.equals(previousLine) && i < inputData.size() - 1) {
         result.setValid(false);
-        result.setErrorMessage("End of file marker occurred while the end of the data set hasn't been reached");
+        result.setErrorMessage("Train Marshalling Error: End of file marker occurred while the end of the data set hasn't been reached");
         return result;
       }
       previousLine = currentLine;
@@ -67,7 +67,7 @@ public class InputValidator {
         String nextLine = inputData.get(i + 1);
         if (!"1".equals(nextLine)) {
           result.setValid(false);
-          result.setErrorMessage("Invalid number: expected 1 but found " + nextLine);
+          result.setErrorMessage("Train Marshalling Error: Invalid number: expected 1 but found " + nextLine);
           return result;
         }
       }
@@ -90,7 +90,7 @@ public class InputValidator {
           currentLength = Integer.parseInt(currentLine.trim());
         } catch (NumberFormatException e) {
           result.setValid(false);
-          result.setErrorMessage("Error: a train length doesn't look like a valid integer number");
+          result.setErrorMessage("Train Marshalling Error: a train length doesn't look like a valid integer number");
           return result;
         }
       }
@@ -106,7 +106,7 @@ public class InputValidator {
         //the train length has been determined on the previous line, so a meaningful string is now expected, not a "0"
         if (!(currentLength == 1) && previousLine.equals(String.valueOf(currentLength))) {
           result.setValid(false);
-          result.setErrorMessage("Invalid sequence length: the train is supposed to have at least one coach");
+          result.setErrorMessage("Train Marshalling Error: Invalid sequence length: the train is supposed to have at least one coach");
           return result;
         }
         
@@ -119,7 +119,7 @@ public class InputValidator {
       if (!isTrainLength) {
         if (currentLine.trim().split("\\s+").length != currentLength) {
           result.setValid(false);
-          result.setErrorMessage("The length of the expected sequence is inconsistent with the passed amount");
+          result.setErrorMessage("Train Marshalling Error: The length of the expected sequence is inconsistent with the passed amount");
           return result;
         }
       }
@@ -148,13 +148,13 @@ public class InputValidator {
         number = Integer.parseInt(numberStr);
         if (number > numbersStr.length) {
           result.setValid(false);
-          result.setErrorMessage("Error: a coach number occurred that exceeds its maximum possible number");
+          result.setErrorMessage("Train Marshalling Error: a coach number occurred that exceeds its maximum possible number");
           return result;
         }
         
         if (number == 0) {
           result.setValid(false);
-          result.setErrorMessage("Error: a coach number equals zero");
+          result.setErrorMessage("Train Marshalling Error: a coach number equals zero");
           return result;
         }
       }
@@ -179,7 +179,7 @@ public class InputValidator {
         for (int j = i + 1; j < numbersStr.length; j++) {
           if (numbersStr[i].equals(numbersStr[j])) {
             result.setValid(false);
-            result.setErrorMessage("Error: duplicate value occurred");
+            result.setErrorMessage("Train Marshalling Error: duplicate value occurred");
             return result;
           }
         }
