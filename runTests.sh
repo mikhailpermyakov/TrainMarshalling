@@ -32,7 +32,7 @@ for file in \
 	29algoTestPremax \
 	30algoTestMax \
 	31algoTestExceeded \
-	32algoTest ;
+	32algoTestMidrange ;
 do
 echo \>\>\>
 echo The input data being currently tested: $file
