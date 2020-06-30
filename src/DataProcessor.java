@@ -8,19 +8,26 @@ public class DataProcessor {
     //a flag indicating that the current string contains the total amount of the coaches
     boolean isTrainLength = true;
 
+    //iterating through the list of the input data
     for (String currentLine : inputData) {
+      //end of block
       if ("0".equals(currentLine)) {
+        //the following would mean the end of file
         if (previousLine.equals(currentLine)) {
           break;
         }
         result.add(System.lineSeparator());
+        //the current line denotes the end of the block meaning on the next iteration the train length is expected
         isTrainLength = true;
         previousLine = currentLine;
         continue;
       }
 
-      if (!isTrainLength)
-        result.add(estimate(DataParser.parse(currentLine.trim())) + System.lineSeparator());
+      if (!isTrainLength) {
+        //parse the current line to get an array of the expected order numbers and then pass it to the respective method to get Yes or No in response
+        String currentLineEstimation = estimate(DataParser.parse(currentLine.trim())) + System.lineSeparator();
+        result.add(currentLineEstimation);
+      }
       previousLine = currentLine;
       isTrainLength = false;
     }
@@ -41,17 +48,19 @@ public class DataProcessor {
     while (inboundCounter < totalAmount || (!stack.isEmpty() && stack.peek() == nextExpected)) {
       //sorting yard is not empty and the next expected coach is on the top
       if (((!stack.isEmpty()) && stack.peek() == nextExpected)) {
+        //remove the top value from the stack, which basically equals to adding a coach to the outbound track
         stack.delete();
         //get the next expected number if the expected sequence formation is not yet complete
         if (outboundCounter < expectedOrder.length - 1)
           nextExpected = expectedOrder[++outboundCounter];
       } else {
+        //move the next coach from the inbound track to the station by first increasing the inbound counter and then adding the value to the stack
         stack.add(++inboundCounter);
       }
     }
 
+    //all the coaches from the inbound train have been collected at the outbound track and hence successfully rearranged
     if (outboundCounter == totalAmount - 1)
-      //all the coaches from the inbound train have been successfully rearranged
       result = "Yes";
     else
       result = "No";
