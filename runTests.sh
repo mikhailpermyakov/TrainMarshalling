@@ -1,5 +1,5 @@
+#!/bin/bash
 current=$(pwd)
-echo $current
 for file in \
 	01positiveInt \
 	02positiveInt \
@@ -34,5 +34,8 @@ for file in \
 	31algoTestExceeded \
 	32algoTest ;
 do
+echo \>\>\>
+echo The input data being currently tested: $file
 java -cp $current/src Main $current/testData/$file
+echo \<\<\<
 done
